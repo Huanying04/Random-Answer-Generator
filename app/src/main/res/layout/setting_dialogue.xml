@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="89dp"
+        android:layout_height="39dp"
+        android:gravity="center|right"
+        android:text="生成類型"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/summonType"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:layout_toRightOf="@+id/textView" />
+
+</RelativeLayout>

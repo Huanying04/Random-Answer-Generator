@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <TextView
+        android:id="@+id/QNumNumBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="7dp"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/summonButton"
+        app:layout_constraintTop_toBottomOf="@+id/QNumTextBox" />
+
+    <Spinner
+        android:id="@+id/main_summonType"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="229dp"
+        app:layout_constraintEnd_toEndOf="@+id/QNumNumBox"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MainsummonTypeLabel" />
+
+    <TextView
+        android:id="@+id/answerLabel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:scrollbarStyle="insideOverlay"
+        android:text="按下生成鍵生成選項"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="36sp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/summonButton"
+        android:layout_width="280dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="113dp"
+        android:text="生成!"
+        android:textColorHighlight="#D3FFFFFF"
+        android:textColorLink="#03A9F4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/answerLabel" />
+
+    <TextView
+        android:id="@+id/QNumTextBox"
+        android:layout_width="87dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginEnd="21dp"
+        android:text="題號:"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/summonButton"
+        app:layout_constraintTop_toBottomOf="@+id/answerLabel" />
+
+    <TextView
+        android:id="@+id/MainsummonTypeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="9dp"
+        android:text="生成模式"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/summonButton" />
+
+    <EditText
+        android:id="@+id/RandAnsFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toRightOf="@+id/main_summonType"
+        android:ems="10"
+        android:hint="請輸入第一個選項"
+        android:inputType="textVisiblePassword|textPassword"
+        android:maxLength="1"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/main_summonType"
+        app:layout_constraintTop_toBottomOf="@+id/summonButton" />
+
+    <EditText
+        android:id="@+id/RandAnsLast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toRightOf="@+id/main_summonType"
+        android:ems="10"
+        android:hint="請輸入最後一個選項"
+        android:inputType="textVisiblePassword|textPassword"
+        android:maxLength="1"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/main_summonType"
+        app:layout_constraintTop_toBottomOf="@+id/RandIntMax" />
+
+    <EditText
+        android:id="@+id/RandIntMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toRightOf="@+id/main_summonType"
+        android:ems="10"
+        android:hint="請輸入最小值"
+        android:inputType="number"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/main_summonType"
+        app:layout_constraintTop_toBottomOf="@+id/RandIntMax" />
+
+    <EditText
+        android:id="@+id/RandAnsAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toRightOf="@+id/main_summonType"
+        android:ems="10"
+        android:hint="請輸入所有選項"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/main_summonType"
+        app:layout_constraintTop_toBottomOf="@+id/summonButton" />
+
+    <EditText
+        android:id="@+id/RandIntMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@+id/main_summonType"
+        android:ems="10"
+        android:hint="請輸入最大值"
+        android:inputType="number"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/main_summonType"
+        app:layout_constraintTop_toBottomOf="@+id/summonButton" />
+
+    <TextView
+        android:id="@+id/RandAnsAllHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/RandAnsAll"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="9dp"
+        android:layout_toRightOf="@+id/main_summonType"
+        android:ems="10"
+        android:text="⚠每個字符代表一個選項，若選項之字數超過1個，請使用其他符號代替。"
+        android:textColor="#404040"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/main_summonType"
+        app:layout_constraintTop_toBottomOf="@+id/RandAnsAll" />
+
+    <!--<CheckBox
+        android:id="@+id/deleteA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="A"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DeleteLebel" />
+
+    <CheckBox
+        android:id="@+id/deleteB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/deleteA"
+        android:text="B"
+        app:layout_constraintStart_toEndOf="@+id/deleteA"
+        app:layout_constraintTop_toBottomOf="@+id/DeleteLebel" />
+
+    <CheckBox
+        android:id="@+id/deleteC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/deleteB"
+        android:text="C"
+        app:layout_constraintStart_toEndOf="@+id/deleteB"
+        app:layout_constraintTop_toBottomOf="@+id/DeleteLebel" />
+
+    <CheckBox
+        android:id="@+id/deleteD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/deleteC"
+        android:text="D"
+        app:layout_constraintStart_toEndOf="@+id/deleteC"
+        app:layout_constraintTop_toBottomOf="@+id/DeleteLebel" />
+
+    <TextView
+        android:id="@+id/DeleteLebel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:text="刪除選項"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/summonButton" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
