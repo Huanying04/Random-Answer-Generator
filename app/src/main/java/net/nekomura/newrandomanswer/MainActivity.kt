@@ -19,6 +19,9 @@ import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.setting_dialogue.*
 import org.w3c.dom.Text
 import java.lang.NumberFormatException
+import java.util.*
+import kotlin.NoSuchElementException
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
     var type : Int = 0
@@ -40,10 +43,6 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
         "隨機數字(最大值)",
         "隨機數字(最大值, 最小值)")
     var rand: Int = 0
-    /*lateinit var cb_d_A : CheckBox
-    lateinit var cb_d_B : CheckBox
-    lateinit var cb_d_C : CheckBox
-    lateinit var cb_d_D : CheckBox*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +60,9 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
+
             override fun onItemSelected(parent:AdapterView<*>?, view: View?, position: Int, id: Long) {
+                //type=選項位置
                 type = position
                 if (type == 2) { //單選題(第一選項, 最後選項)
                     RandIntMax.visibility = View.INVISIBLE
@@ -116,7 +117,9 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
             }
         }
 
+        //當按下"生成!"按鈕時
         summonButton.setOnClickListener {
+            //如果type(選項位置)為~時
             if (type == 0) {  //單選題(A-D)
                 qNum++
                 rand = (0 until Answers4.size).random()
@@ -483,7 +486,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         answerLabel.setText(rand.toString())
                         QNumNumBox.setText(qNum.toString())
                     }
-                }catch (e: NoSuchElementException) {
+                }catch (e: InputMismatchException) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
                     builder.setMessage("輸入值不得大於2147483647")
@@ -509,6 +512,8 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 builder.show()
             }
         }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -520,19 +525,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val i: Int = item.getItemId()
 
-        /*if (i == R.id.action_setting) {
-            /*var builder = AlertDialog.Builder(this)
-            builder.setTitle("設定")
-            builder.setView(layoutInflater.inflate(R.layout.setting_dialogue, null))
-            builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
-            builder.setNegativeButton("取消", {dialogInterface: DialogInterface, i: Int ->})
-            builder.setCancelable(false)
-            /*val yesButton = builder.create()
-            yesButton.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-
-            }*/
-            builder.show()*/
-        }else */if (i == R.id.action_about) {
+        if (i == R.id.action_about) {
             var builder = AlertDialog.Builder(this)
             //userInput.setText(Html.fromHtml(getResources().getString(R.string.action_about)))
             builder.setTitle("關於")
@@ -547,13 +540,4 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
 
         return super.onOptionsItemSelected(item)
     }
-
-    /*override fun onClick(v: View?) {
-        v as CheckBox
-        var isChecked : Boolean = v.isChecked
-        when (v.id) {
-            R.id.deleteA -> if (isChecked) {
-            }
-        }
-    }*/
 }
