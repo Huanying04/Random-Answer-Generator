@@ -1,27 +1,24 @@
 package net.nekomura.newrandomanswer
 
-import android.annotation.SuppressLint
+import android.R.attr.label
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.Html
 import android.text.method.LinkMovementMethod
-import android.view.*
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import android.view.View.OnClickListener
-import android.widget.*
-import androidx.appcompat.widget.AlertDialogLayout
 import androidx.appcompat.widget.Toolbar
-
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.setting_dialogue.*
-import org.w3c.dom.Text
-import java.lang.NumberFormatException
-import java.util.*
-import kotlin.NoSuchElementException
-import kotlin.collections.ArrayList
+
 
 class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
     var type : Int = 0
@@ -43,6 +40,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
         "隨機數字(最大值)",
         "隨機數字(最大值, 最小值)")
     var rand: Int = 0
+    var summonHistory: StringBuffer = StringBuffer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,12 +124,14 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 answerLabel.textSize = 270.toFloat()
                 answerLabel.setText(Answers4[rand])
                 QNumNumBox.setText(qNum.toString())
+                summonHistory.append(Answers4[rand])
             }else if (type == 1){  //單選題(A-E)
                 qNum++
                 rand = (0 until Answers5.size).random()
                 answerLabel.textSize = 270.toFloat()
                 answerLabel.setText(Answers5[rand])
                 QNumNumBox.setText(qNum.toString())
+                summonHistory.append(Answers5[rand])
             }else if (type == 2){  //單選題(第一選項, 最後選項)
                 try {
                     qNum++
@@ -151,6 +151,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                             answerLabel.textSize = 270.toFloat()
                             answerLabel.setText(allAnsArray.get(rand).toString())
                             QNumNumBox.setText(qNum.toString())
+                            summonHistory.append(allAnsArray.get(rand).toString())
                         }else {
                             var builder = AlertDialog.Builder(this)
                             builder.setTitle("錯誤!")
@@ -226,6 +227,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 answerLabel.textSize = 90.toFloat()
                 answerLabel.setText(LastAnsStr)
                 QNumNumBox.setText(qNum.toString())
+                summonHistory.append("[$LastAnsStr]")
             }else if (type == 4){ //多選題(A-E)
                 qNum++
 
@@ -278,6 +280,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 answerLabel.textSize = 90.toFloat()
                 answerLabel.setText(LastAnsStr)
                 QNumNumBox.setText(qNum.toString())
+                summonHistory.append("[$LastAnsStr]")
             }else if (type == 5){  //多選題(第一選項, 最後選項)
                 try {
                     qNum++
@@ -318,6 +321,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                             answerLabel.textSize = 60.toFloat()
                             answerLabel.setText(lastAns)
                             QNumNumBox.setText(qNum.toString())
+                            summonHistory.append("[$lastAns]")
                         }else {
                             var builder = AlertDialog.Builder(this)
                             builder.setTitle("錯誤!")
@@ -367,6 +371,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                             answerLabel.textSize = 30.toFloat()
                             answerLabel.setText(displayAns)
                             QNumNumBox.setText(qNum.toString())
+                            summonHistory.append("[$displayAns]")
                         }else {
                             var builder = AlertDialog.Builder(this)
                             builder.setTitle("錯誤!")
@@ -413,6 +418,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         answerLabel.textSize = 30.toFloat()
                         answerLabel.setText(displayAns)
                         QNumNumBox.setText(qNum.toString())
+                        summonHistory.append("[$displayAns]")
                     }else {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
@@ -433,7 +439,8 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 answerLabel.textSize = 270.toFloat()
                 answerLabel.setText(truefalse[rand])
                 QNumNumBox.setText(qNum.toString())
-            }else if (type == 9){
+                summonHistory.append(truefalse[rand])
+            }else if (type == 9){  //最大值隨機數字
                 try {
                     var randomIntMax :Int = RandIntMax.getText().toString().toInt()
 
@@ -443,19 +450,20 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         builder.setMessage("輸入值不得小於1，若最大值慾設為0，請使用\"隨機數字(最大值, 最小值)\"")
                         builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
                         builder.show()
+                    }else if(randomIntMax.toLong() > 2147483647) {
+                        var builder = AlertDialog.Builder(this)
+                        builder.setTitle("錯誤!")
+                        builder.setMessage("輸入值不得大於2147483647")
+                        builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                        builder.show()
                     }else {
                         qNum++
                         rand = (1..randomIntMax).random()
                         answerLabel.textSize = 60.toFloat()
                         answerLabel.setText(rand.toString())
                         QNumNumBox.setText(qNum.toString())
+                        summonHistory.append("($rand)")
                     }
-                }catch (e: NoSuchElementException) {
-                    var builder = AlertDialog.Builder(this)
-                    builder.setTitle("錯誤!")
-                    builder.setMessage("輸入值不得大於2147483647")
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
-                    builder.show()
                 }catch (e: NumberFormatException) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
@@ -469,7 +477,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                     builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
                     builder.show()
                 }
-            }else if (type == 10){
+            }else if (type == 10){  //最小值-最大值隨機數字
                 try {
                     var randomIntMax :Int = RandIntMax.getText().toString().toInt()
                     var randomIntMin :Int = RandIntMin.getText().toString().toInt()
@@ -479,19 +487,20 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         builder.setMessage("最小值不得大於最大值")
                         builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
                         builder.show()
+                    }else if(randomIntMax.toLong() > 2147483647 || randomIntMin.toLong() > 2147483647) {
+                        var builder = AlertDialog.Builder(this)
+                        builder.setTitle("錯誤!")
+                        builder.setMessage("輸入值不得大於2147483647")
+                        builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                        builder.show()
                     }else {
                         qNum++
                         rand = (randomIntMin until randomIntMax+1).random()
                         answerLabel.textSize = 60.toFloat()
                         answerLabel.setText(rand.toString())
                         QNumNumBox.setText(qNum.toString())
+                        summonHistory.append("($rand)")
                     }
-                }catch (e: InputMismatchException) {
-                    var builder = AlertDialog.Builder(this)
-                    builder.setTitle("錯誤!")
-                    builder.setMessage("輸入值不得大於2147483647")
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
-                    builder.show()
                 }catch (e: NumberFormatException) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
@@ -513,7 +522,18 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
             }
         }
 
-
+        summonHistoryButton.setOnClickListener {
+            var builder = AlertDialog.Builder(this)
+            builder.setTitle("生成歷史")
+            builder.setMessage(summonHistory.toString())
+            builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+            builder.setNeutralButton("複製到剪貼簿") { dialogInterface: DialogInterface, i: Int ->
+                val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText(summonHistory.toString(), summonHistory.toString())
+                clipboard.setPrimaryClip(clip)
+            }
+            builder.show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
