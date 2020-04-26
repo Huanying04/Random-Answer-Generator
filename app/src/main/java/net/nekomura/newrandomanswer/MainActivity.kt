@@ -125,6 +125,8 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 answerLabel.setText(Answers4[rand])
                 QNumNumBox.setText(qNum.toString())
                 summonHistory.append(Answers4[rand])
+                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
+                    summonHistory.append("\n")
             }else if (type == 1){  //單選題(A-E)
                 qNum++
                 rand = (0 until Answers5.size).random()
@@ -132,6 +134,8 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 answerLabel.setText(Answers5[rand])
                 QNumNumBox.setText(qNum.toString())
                 summonHistory.append(Answers5[rand])
+                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
+                    summonHistory.append("\n")
             }else if (type == 2){  //單選題(第一選項, 最後選項)
                 try {
                     qNum++
@@ -152,6 +156,8 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                             answerLabel.setText(allAnsArray.get(rand).toString())
                             QNumNumBox.setText(qNum.toString())
                             summonHistory.append(allAnsArray.get(rand).toString())
+                            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
+                                summonHistory.append("\n")
                         }else {
                             var builder = AlertDialog.Builder(this)
                             builder.setTitle("錯誤!")
@@ -227,7 +233,10 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 answerLabel.textSize = 90.toFloat()
                 answerLabel.setText(LastAnsStr)
                 QNumNumBox.setText(qNum.toString())
+                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                    summonHistory.append("\n")
                 summonHistory.append("[$LastAnsStr]")
+                summonHistory.append("\n")
             }else if (type == 4){ //多選題(A-E)
                 qNum++
 
@@ -280,7 +289,10 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 answerLabel.textSize = 90.toFloat()
                 answerLabel.setText(LastAnsStr)
                 QNumNumBox.setText(qNum.toString())
+                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                    summonHistory.append("\n")
                 summonHistory.append("[$LastAnsStr]")
+                summonHistory.append("\n")
             }else if (type == 5){  //多選題(第一選項, 最後選項)
                 try {
                     qNum++
@@ -321,6 +333,8 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                             answerLabel.textSize = 60.toFloat()
                             answerLabel.setText(lastAns)
                             QNumNumBox.setText(qNum.toString())
+                            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                                summonHistory.append("\n")
                             summonHistory.append("[$lastAns]")
                         }else {
                             var builder = AlertDialog.Builder(this)
@@ -371,7 +385,10 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                             answerLabel.textSize = 30.toFloat()
                             answerLabel.setText(displayAns)
                             QNumNumBox.setText(qNum.toString())
+                            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                                summonHistory.append("\n")
                             summonHistory.append("[$displayAns]")
+                            summonHistory.append("\n")
                         }else {
                             var builder = AlertDialog.Builder(this)
                             builder.setTitle("錯誤!")
@@ -418,7 +435,10 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         answerLabel.textSize = 30.toFloat()
                         answerLabel.setText(displayAns)
                         QNumNumBox.setText(qNum.toString())
+                        if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                            summonHistory.append("\n")
                         summonHistory.append("[$displayAns]")
+                        summonHistory.append("\n")
                     }else {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
@@ -440,6 +460,8 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 answerLabel.setText(truefalse[rand])
                 QNumNumBox.setText(qNum.toString())
                 summonHistory.append(truefalse[rand])
+                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
+                    summonHistory.append("\n")
             }else if (type == 9){  //最大值隨機數字
                 try {
                     var randomIntMax :Int = RandIntMax.getText().toString().toInt()
@@ -450,7 +472,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         builder.setMessage("輸入值不得小於1，若最大值慾設為0，請使用\"隨機數字(最大值, 最小值)\"")
                         builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
                         builder.show()
-                    }else if(randomIntMax.toLong() > 2147483647) {
+                    }else if(randomIntMax.toLong() > 2147483647L) {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
                         builder.setMessage("輸入值不得大於2147483647")
@@ -462,7 +484,10 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         answerLabel.textSize = 60.toFloat()
                         answerLabel.setText(rand.toString())
                         QNumNumBox.setText(qNum.toString())
+                        if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                            summonHistory.append("\n")
                         summonHistory.append("($rand)")
+                        summonHistory.append("\n")
                     }
                 }catch (e: NumberFormatException) {
                     var builder = AlertDialog.Builder(this)
@@ -487,7 +512,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         builder.setMessage("最小值不得大於最大值")
                         builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
                         builder.show()
-                    }else if(randomIntMax.toLong() > 2147483647 || randomIntMin.toLong() > 2147483647) {
+                    }else if(randomIntMax.toLong() > 2147483647L || randomIntMin.toLong() > 2147483647L) {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
                         builder.setMessage("輸入值不得大於2147483647")
@@ -499,7 +524,10 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         answerLabel.textSize = 60.toFloat()
                         answerLabel.setText(rand.toString())
                         QNumNumBox.setText(qNum.toString())
+                        if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                            summonHistory.append("\n")
                         summonHistory.append("($rand)")
+                        summonHistory.append("\n")
                     }
                 }catch (e: NumberFormatException) {
                     var builder = AlertDialog.Builder(this)
