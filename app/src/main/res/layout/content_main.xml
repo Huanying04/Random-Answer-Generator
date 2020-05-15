@@ -76,6 +76,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_summonType" />
 
+    <Button
+        android:id="@+id/ResetButton"
+        android:layout_width="87dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="113dp"
+        android:text="歸零"
+        android:textColorHighlight="#D3FFFFFF"
+        android:textColorLink="#03A9F4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/summonHistoryButton" />
+
     <TextView
         android:id="@+id/QNumTextBox"
         android:layout_width="87dp"

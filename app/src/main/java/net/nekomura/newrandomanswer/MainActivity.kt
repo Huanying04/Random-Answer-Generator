@@ -15,19 +15,20 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.content_main.*
 
 
 class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
-    var type : Int = 0
-    var qNum : Int = 0
-    var Answers4 = arrayOf("A", "B", "C", "D")
-    var Answers5 = arrayOf("A", "B", "C", "D", "E")
-    var truefalse = arrayOf("〇", "×")
-    val upperAlphaRegex = Regex("[A-Z]+")
-    var summontypes = arrayOf(
+    private var type : Int = 0
+    private var qNum : Int = 0
+    private var Answers4 = arrayOf("A", "B", "C", "D")
+    private var Answers5 = arrayOf("A", "B", "C", "D", "E")
+    private var truefalse = arrayOf("〇", "×")
+    private val upperAlphaRegex = Regex("[A-Z]+")
+    private val summontypes = arrayOf(
         "單選題(A-D)",
         "單選題(A-E)",
         "單選題(第一選項, 最後選項)",
@@ -46,13 +47,13 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var toolbar2: Toolbar = findViewById(R.id.toolbar)
+        val toolbar2: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar2)
 
         //main_summonType!!.setOnItemSelectedListener(this)
         val spinnerList = ArrayAdapter(this, android.R.layout.simple_spinner_item, summontypes)
         spinnerList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        main_summonType.setAdapter(spinnerList)
+        main_summonType.adapter = spinnerList
 
         main_summonType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -120,7 +121,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
             //如果type(選項位置)為~時
             if (type == 0) {  //單選題(A-D)
                 qNum++
-                rand = (0 until Answers4.size).random()
+                rand = (Answers4.indices).random()
                 answerLabel.textSize = 270.toFloat()
                 answerLabel.setText(Answers4[rand])
                 QNumNumBox.setText(qNum.toString())
@@ -131,17 +132,16 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 qNum++
                 rand = (0 until Answers5.size).random()
                 answerLabel.textSize = 270.toFloat()
-                answerLabel.setText(Answers5[rand])
-                QNumNumBox.setText(qNum.toString())
+                answerLabel.text = Answers5[rand]
+                QNumNumBox.text = qNum.toString()
                 summonHistory.append(Answers5[rand])
                 if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
                     summonHistory.append("\n")
             }else if (type == 2){  //單選題(第一選項, 最後選項)
                 try {
-                    qNum++
-                    var randAnsFirst :Char = RandAnsFirst.getText().toString().get(0)
-                    var randAnsLast :Char = RandAnsLast.getText().toString().get(0)
-                    var allAnsArray = ArrayList<Char>()
+                    val randAnsFirst :Char = RandAnsFirst.getText().toString().get(0)
+                    val randAnsLast :Char = RandAnsLast.getText().toString().get(0)
+                    val allAnsArray = ArrayList<Char>()
                     var displayAns: String = ""
 
                     if (randAnsFirst.toString().matches(upperAlphaRegex) && randAnsLast.toString().matches(upperAlphaRegex)) {
@@ -153,8 +153,9 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                             rand = (0 until allAnsArray.size).random()
 
                             answerLabel.textSize = 270.toFloat()
-                            answerLabel.setText(allAnsArray.get(rand).toString())
-                            QNumNumBox.setText(qNum.toString())
+                            answerLabel.text = allAnsArray.get(rand).toString()
+                            QNumNumBox.text = qNum.toString()
+                            qNum++
                             summonHistory.append(allAnsArray.get(rand).toString())
                             if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
                                 summonHistory.append("\n")
@@ -162,27 +163,27 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                             var builder = AlertDialog.Builder(this)
                             builder.setTitle("錯誤!")
                             builder.setMessage("第一個英文字母必須比最後一個小")
-                            builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                            builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                             builder.show()
                         }
                     }else {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
                         builder.setMessage("只能輸入大寫英文字母")
-                        builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                         builder.show()
                     }
                 }catch (e: StringIndexOutOfBoundsException) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
                     builder.setMessage("輸入值不得為空")
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                    builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                     builder.show()
                 }catch (e: Throwable) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
                     builder.setMessage("出現未知錯誤，錯誤代碼: \n" + e.toString())
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                    builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                     builder.show()
                 }
             }else if (type == 3){  //多選題(A-D)
@@ -197,13 +198,13 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 var LastAnsStr: String = ""
                 var howManyAnsrate: Int = (1..100).random()
                 var howManyAns: Int = 1
-                if (howManyAnsrate >= 1 && howManyAnsrate <= 8) {
+                if (howManyAnsrate in 1..8) {
                     howManyAns = 1
-                }else if (howManyAnsrate >= 9 && howManyAnsrate <= 50) {
+                }else if (howManyAnsrate in 9..50) {
                     howManyAns = 2
-                }else if (howManyAnsrate >= 51 && howManyAnsrate <= 92) {
+                }else if (howManyAnsrate in 51..92) {
                     howManyAns = 3
-                }else if (howManyAnsrate >= 93 && howManyAnsrate <= 100) {
+                }else if (howManyAnsrate in 93..100) {
                     howManyAns = 4
                 }else {
                     howManyAns = 4
@@ -211,12 +212,12 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
 
                 for (i: Int in 0 until howManyAns) {
                     var rand: Int = (0 until FiveAnsArray.size).random()
-                    FirstAnsStr = FirstAnsStr + FiveAnsArray.get(rand)
-                    FiveAnsArray.remove(FiveAnsArray.get(rand))
+                    FirstAnsStr += FiveAnsArray.get(rand)
+                    FiveAnsArray.remove(FiveAnsArray[rand])
                 }
 
                 for (i: Int in 0 until FiveAnsArray.size) {
-                    FiveAnsArray.remove(FiveAnsArray.get(0))
+                    FiveAnsArray.remove(FiveAnsArray[0])
                 }
 
                 FiveAnsArray.add('A')
@@ -226,14 +227,14 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
 
                 for (i: Int in 0 until FiveAnsArray.size) {
                     if (FirstAnsStr.indexOf(FiveAnsArray.get(i)) != -1) {
-                        LastAnsStr = LastAnsStr + FiveAnsArray.get(i)
+                        LastAnsStr += FiveAnsArray.get(i)
                     }
                 }
 
                 answerLabel.textSize = 90.toFloat()
                 answerLabel.setText(LastAnsStr)
                 QNumNumBox.setText(qNum.toString())
-                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
                     summonHistory.append("\n")
                 summonHistory.append("[$LastAnsStr]")
                 summonHistory.append("\n")
@@ -250,15 +251,15 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                 var LastAnsStr: String = ""
                 var howManyAnsrate: Int = (1..100).random()
                 var howManyAns: Int = 1
-                if (howManyAnsrate >= 1 && howManyAnsrate <= 5) {
+                if (howManyAnsrate in 1..5) {
                     howManyAns = 1
-                }else if (howManyAnsrate >= 6 && howManyAnsrate <= 35) {
+                }else if (howManyAnsrate in 6..35) {
                     howManyAns = 2
-                }else if (howManyAnsrate >= 36 && howManyAnsrate <= 65) {
+                }else if (howManyAnsrate in 36..65) {
                     howManyAns = 3
-                }else if (howManyAnsrate >= 66 && howManyAnsrate <= 95) {
+                }else if (howManyAnsrate in 66..95) {
                     howManyAns = 4
-                }else if (howManyAnsrate >= 96 && howManyAnsrate <= 100) {
+                }else if (howManyAnsrate in 96..100) {
                     howManyAns = 5
                 }else {
                     howManyAns = 5
@@ -266,12 +267,12 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
 
                 for (i: Int in 0 until howManyAns) {
                     var rand: Int = (0 until FiveAnsArray.size).random()
-                    FirstAnsStr = FirstAnsStr + FiveAnsArray.get(rand)
+                    FirstAnsStr += FiveAnsArray.get(rand)
                     FiveAnsArray.remove(FiveAnsArray.get(rand))
                 }
 
                 for (i: Int in 0 until FiveAnsArray.size) {
-                    FiveAnsArray.remove(FiveAnsArray.get(0))
+                    FiveAnsArray.remove(FiveAnsArray[0])
                 }
 
                 FiveAnsArray.add('A')
@@ -282,22 +283,21 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
 
                 for (i: Int in 0 until FiveAnsArray.size) {
                     if (FirstAnsStr.indexOf(FiveAnsArray.get(i)) != -1) {
-                        LastAnsStr = LastAnsStr + FiveAnsArray.get(i)
+                        LastAnsStr += FiveAnsArray.get(i)
                     }
                 }
 
                 answerLabel.textSize = 90.toFloat()
-                answerLabel.setText(LastAnsStr)
-                QNumNumBox.setText(qNum.toString())
-                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                answerLabel.text = LastAnsStr
+                QNumNumBox.text = qNum.toString()
+                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
                     summonHistory.append("\n")
                 summonHistory.append("[$LastAnsStr]")
                 summonHistory.append("\n")
             }else if (type == 5){  //多選題(第一選項, 最後選項)
                 try {
-                    qNum++
-                    var randAnsFirst :Char = RandAnsFirst.getText().toString().get(0)
-                    var randAnsLast :Char = RandAnsLast.getText().toString().get(0)
+                    var randAnsFirst :Char = RandAnsFirst.text.toString().get(0)
+                    var randAnsLast :Char = RandAnsLast.text.toString().get(0)
                     var allAnsArray = ArrayList<Char>()
                     var howManyAns = (1..randAnsLast.toInt()-randAnsFirst.toInt()).random()
                     var displayAns: String = ""
@@ -326,48 +326,49 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
 
                             for (i: Int in 0 until allAnsArray.size) {
                                 if (firstAns.indexOf(allAnsArray.get(i)) != -1) {
-                                    lastAns = lastAns + allAnsArray.get(i)
+                                    lastAns += allAnsArray.get(i)
                                 }
                             }
 
                             answerLabel.textSize = 60.toFloat()
                             answerLabel.setText(lastAns)
                             QNumNumBox.setText(qNum.toString())
-                            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                            qNum++
+                            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
                                 summonHistory.append("\n")
                             summonHistory.append("[$lastAns]")
                         }else {
                             var builder = AlertDialog.Builder(this)
                             builder.setTitle("錯誤!")
                             builder.setMessage("第一個英文字母必須比最後一個小")
-                            builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                            builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                             builder.show()
                         }
                     }else {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
                         builder.setMessage("只能輸入大寫英文字母")
-                        builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                         builder.show()
                     }
                 }catch (e: StringIndexOutOfBoundsException) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
                     builder.setMessage("輸入值不得為空")
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                    builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                     builder.show()
                 }catch (e: Throwable) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
-                    builder.setMessage("出現未知錯誤，錯誤代碼: \n" + e.toString())
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                    builder.setMessage("出現未知錯誤，錯誤代碼: \n$e")
+                    builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                     builder.show()
                 }
             }else if (type == 6){  //多選項填空(第一選項, 最後選項)
                 try {
                     qNum++
-                    var randAnsFirst :Char = RandAnsFirst.getText().toString().get(0)
-                    var randAnsLast :Char = RandAnsLast.getText().toString().get(0)
+                    var randAnsFirst :Char = RandAnsFirst.getText().toString()[0]
+                    var randAnsLast :Char = RandAnsLast.getText().toString()[0]
                     var allAnsArray = ArrayList<Char>()
                     var displayAns: String = ""
 
@@ -379,13 +380,13 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
 
                             for (i: Int in 0 until allAnsArray.size) {
                                 rand = (0 until allAnsArray.size).random()
-                                displayAns = displayAns + allAnsArray.get(rand)
+                                displayAns += allAnsArray.get(rand)
                                 allAnsArray.removeAt(rand)
                             }
                             answerLabel.textSize = 30.toFloat()
                             answerLabel.setText(displayAns)
                             QNumNumBox.setText(qNum.toString())
-                            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
                                 summonHistory.append("\n")
                             summonHistory.append("[$displayAns]")
                             summonHistory.append("\n")
@@ -393,27 +394,27 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                             var builder = AlertDialog.Builder(this)
                             builder.setTitle("錯誤!")
                             builder.setMessage("第一個英文字母必須比最後一個小")
-                            builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                            builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                             builder.show()
                         }
                     }else {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
                         builder.setMessage("只能輸入大寫英文字母")
-                        builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                         builder.show()
                     }
                 }catch (e: StringIndexOutOfBoundsException) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
                     builder.setMessage("輸入值不得為空")
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                    builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                     builder.show()
                 }catch (e: Throwable) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
                     builder.setMessage("出現未知錯誤，錯誤代碼: \n" + e.toString())
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                    builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                     builder.show()
                 }
             }else if (type == 7){  //多選項填空(全部選項)
@@ -422,12 +423,12 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                     var allAnsArray = ArrayList<Char>()
                     var displayAns: String = ""
 
-                    for (i: Int in 0 until RandAnsAll.getText().toString().length) {
+                    for (i: Int in RandAnsAll.getText().toString().indices) {
                         allAnsArray.add(RandAnsAll.getText().toString().get(i))
                     }
                     for (i: Int in 0 until allAnsArray.size) {
                         rand = (0 until allAnsArray.size).random()
-                        displayAns = displayAns + allAnsArray.get(rand)
+                        displayAns += allAnsArray.get(rand)
                         allAnsArray.removeAt(rand)
                     }
 
@@ -435,7 +436,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         answerLabel.textSize = 30.toFloat()
                         answerLabel.setText(displayAns)
                         QNumNumBox.setText(qNum.toString())
-                        if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                        if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
                             summonHistory.append("\n")
                         summonHistory.append("[$displayAns]")
                         summonHistory.append("\n")
@@ -443,40 +444,40 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
                         builder.setMessage("輸入值不得為空")
-                        builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                         builder.show()
                     }
                 }catch (e: Throwable) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
-                    builder.setMessage("出現未知錯誤，錯誤代碼: \n" + e.toString())
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                    builder.setMessage("出現未知錯誤，錯誤代碼: \n$e")
+                    builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                     builder.show()
                 }
             }else if (type == 8){  //是非題
                 qNum++
                 rand = (0 until truefalse.size).random()
                 answerLabel.textSize = 270.toFloat()
-                answerLabel.setText(truefalse[rand])
-                QNumNumBox.setText(qNum.toString())
+                answerLabel.text = truefalse[rand]
+                QNumNumBox.text = qNum.toString()
                 summonHistory.append(truefalse[rand])
                 if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
                     summonHistory.append("\n")
             }else if (type == 9){  //最大值隨機數字
                 try {
-                    var randomIntMax :Int = RandIntMax.getText().toString().toInt()
+                    var randomIntMax :Int = RandIntMax.text.toString().toInt()
 
                     if (randomIntMax < 1) {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
                         builder.setMessage("輸入值不得小於1，若最大值慾設為0，請使用\"隨機數字(最大值, 最小值)\"")
-                        builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                         builder.show()
                     }else if(randomIntMax.toLong() > 2147483647L) {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
                         builder.setMessage("輸入值不得大於2147483647")
-                        builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                         builder.show()
                     }else {
                         qNum++
@@ -484,68 +485,90 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
                         answerLabel.textSize = 60.toFloat()
                         answerLabel.setText(rand.toString())
                         QNumNumBox.setText(qNum.toString())
-                        if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                        if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
                             summonHistory.append("\n")
                         summonHistory.append("($rand)")
                         summonHistory.append("\n")
                     }
                 }catch (e: NumberFormatException) {
-                    var builder = AlertDialog.Builder(this)
-                    builder.setTitle("錯誤!")
-                    builder.setMessage("輸入值不得為空")
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
-                    builder.show()
+                    if(RandIntMax.text.isEmpty()) {
+                        var builder = AlertDialog.Builder(this)
+                        builder.setTitle("錯誤!")
+                        builder.setMessage("輸入值不得為空")
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
+                        builder.show()
+                    }else if(RandIntMax.text.toString().toLong() > 2147483647L) {
+                        var builder = AlertDialog.Builder(this)
+                        builder.setTitle("錯誤!")
+                        builder.setMessage("輸入值不得大於2147483647")
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
+                        builder.show()
+                    }else {
+                        var builder = AlertDialog.Builder(this)
+                        builder.setTitle("錯誤!")
+                        builder.setMessage("出現錯誤，錯誤代碼: \n$e")
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
+                        builder.show()
+                    }
                 }catch (e: Throwable) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
-                    builder.setMessage("出現未知錯誤，錯誤代碼: \n" + e.toString())
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                    builder.setMessage("出現未知錯誤，錯誤代碼: \n$e")
+                    builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                     builder.show()
                 }
             }else if (type == 10){  //最小值-最大值隨機數字
                 try {
-                    var randomIntMax :Int = RandIntMax.getText().toString().toInt()
-                    var randomIntMin :Int = RandIntMin.getText().toString().toInt()
+                    var randomIntMax :Int = RandIntMax.text.toString().toInt()
+                    var randomIntMin :Int = RandIntMin.text.toString().toInt()
                     if (randomIntMin > randomIntMax) {
                         var builder = AlertDialog.Builder(this)
                         builder.setTitle("錯誤!")
                         builder.setMessage("最小值不得大於最大值")
-                        builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
-                        builder.show()
-                    }else if(randomIntMax.toLong() > 2147483647L || randomIntMin.toLong() > 2147483647L) {
-                        var builder = AlertDialog.Builder(this)
-                        builder.setTitle("錯誤!")
-                        builder.setMessage("輸入值不得大於2147483647")
-                        builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                         builder.show()
                     }else {
                         qNum++
-                        rand = (randomIntMin until randomIntMax+1).random()
+                        rand = (randomIntMin..randomIntMax).random()
                         answerLabel.textSize = 60.toFloat()
                         answerLabel.setText(rand.toString())
                         QNumNumBox.setText(qNum.toString())
-                        if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length != 0)
+                        if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
                             summonHistory.append("\n")
                         summonHistory.append("($rand)")
                         summonHistory.append("\n")
                     }
                 }catch (e: NumberFormatException) {
-                    var builder = AlertDialog.Builder(this)
-                    builder.setTitle("錯誤!")
-                    builder.setMessage("輸入值不得為空")
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
-                    builder.show()
+                    if(RandIntMax.text.isEmpty() || RandIntMin.text.isEmpty()) {
+                        var builder = AlertDialog.Builder(this)
+                        builder.setTitle("錯誤!")
+                        builder.setMessage("輸入值不得為空")
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
+                        builder.show()
+                    }else if(RandIntMax.text.toString().toLong() > 2147483647L || RandIntMin.text.toString().toLong() > 2147483647L) {
+                        var builder = AlertDialog.Builder(this)
+                        builder.setTitle("錯誤!")
+                        builder.setMessage("輸入值不得大於2147483647")
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
+                        builder.show()
+                    }else {
+                        var builder = AlertDialog.Builder(this)
+                        builder.setTitle("錯誤!")
+                        builder.setMessage("出現錯誤，錯誤代碼: \n$e")
+                        builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
+                        builder.show()
+                    }
                 }catch (e: Throwable) {
                     var builder = AlertDialog.Builder(this)
                     builder.setTitle("錯誤!")
-                    builder.setMessage("出現未知錯誤，錯誤代碼: \n" + e.toString())
-                    builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                    builder.setMessage("出現未知錯誤，錯誤代碼: \n$e")
+                    builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                     builder.show()
                 }
             }else {
                 var builder = AlertDialog.Builder(this)
                 builder.setTitle("錯誤!")
-                builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+                builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                 builder.show()
             }
         }
@@ -554,7 +577,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
             var builder = AlertDialog.Builder(this)
             builder.setTitle("生成歷史")
             builder.setMessage(summonHistory.toString())
-            builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+            builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
             builder.setNeutralButton("複製到剪貼簿") { dialogInterface: DialogInterface, i: Int ->
                 val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip = ClipData.newPlainText(summonHistory.toString(), summonHistory.toString())
@@ -562,16 +585,32 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
             }
             builder.show()
         }
+
+        ResetButton.setOnClickListener{
+            var builder = AlertDialog.Builder(this)
+            builder.setTitle("警告")
+            builder.setIconAttribute(android.R.attr.alertDialogIcon)
+            builder.setMessage("這個動作會使\"生成歷史\"及\"題號\"通通歸零，將不會保存。是否繼續？")
+            builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->
+                qNum = 0
+                QNumNumBox.setText(qNum.toString())
+                summonHistory = StringBuffer()
+                val toast = Toast.makeText(applicationContext, "已歸零", Toast.LENGTH_SHORT)
+                toast.show()
+            }
+            builder.setNegativeButton("取消") { dialogInterface: DialogInterface, i: Int ->}
+            builder.show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        var inflater: MenuInflater = getMenuInflater()
+        var inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val i: Int = item.getItemId()
+        val i: Int = item.itemId
 
         if (i == R.id.action_about) {
             var builder = AlertDialog.Builder(this)
@@ -580,10 +619,11 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
             builder.setMessage(R.string.about_string)
             builder.setCancelable(true)
             //builder.setView(R.layout.activity_about)
-            builder.setPositiveButton("確定", {dialogInterface: DialogInterface, i: Int ->})
+            builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
             var finalAlert: AlertDialog = builder.create()
             finalAlert.show()
-            (finalAlert.findViewById(android.R.id.message) as TextView).setMovementMethod(LinkMovementMethod.getInstance())
+            (finalAlert.findViewById(android.R.id.message) as TextView).movementMethod =
+                LinkMovementMethod.getInstance()
         }
 
         return super.onOptionsItemSelected(item)
