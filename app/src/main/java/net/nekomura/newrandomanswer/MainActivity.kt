@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
     private var qNum : Int = 0
     private var Answers4 = arrayOf("A", "B", "C", "D")
     private var Answers5 = arrayOf("A", "B", "C", "D", "E")
-    private var truefalse = arrayOf("〇", "×")
+    private var truefalse = arrayOf("O", "X")
     private val upperAlphaRegex = Regex("[A-Z]+")
     private val summontypes = arrayOf(
         "單選題(A-D)",
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity()/*, View.OnClickListener*/ {
         "多選題(第一選項, 最後選項)",
         "多選項填空(第一選項, 最後選項)",
         "多選項填空(全部選項)",
-        "是非題(〇, ×)",
+        "是非題(O, X)",
         "隨機數字(最大值)",
         "隨機數字(最大值, 最小值)")
     var rand: Int = 0
