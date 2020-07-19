@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         "隨機數字(最大值)",
         "隨機數字(最大值, 最小值)")
     private var rand: Int = 0
-    private var summonHistory: StringBuffer = StringBuffer()
+    private var summonHistory = StringBuffer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         val toolbar2: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar2)
 
-        //main_summonType!!.setOnItemSelectedListener(this)
         val spinnerList = ArrayAdapter(this, android.R.layout.simple_spinner_item, summonTypes)
         spinnerList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         main_summonType.adapter = spinnerList
@@ -102,24 +101,12 @@ class MainActivity : AppCompatActivity() {
         summonButton.setOnClickListener {
             when (main_summonType.selectedItem.toString()) {
                 "單選題(A-D)" -> {  //單選題(A-D)
-                    qNum++
                     rand = (answers4.indices).random()
-                    answerLabel.textSize = 270.toFloat()
-                    answerLabel.text = answers4[rand]
-                    QNumNumBox.text = qNum.toString()
-                    summonHistory.append(answers4[rand])
-                    if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
-                        summonHistory.append("\n")
+                    summon(270f, answers4[rand], answers4[rand], false)
                 }
                 "單選題(A-E)" -> {  //單選題(A-E)
-                    qNum++
                     rand = (answers5.indices).random()
-                    answerLabel.textSize = 270.toFloat()
-                    answerLabel.text = answers5[rand]
-                    QNumNumBox.text = qNum.toString()
-                    summonHistory.append(answers5[rand])
-                    if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
-                        summonHistory.append("\n")
+                    summon(270f, answers5[rand], answers5[rand], false)
                 }
                 "單選題(第一選項, 最後選項)" -> {  //單選題(第一選項, 最後選項)
                     try {
@@ -134,14 +121,7 @@ class MainActivity : AppCompatActivity() {
                                 }
 
                                 rand = (0 until allAnsArray.size).random()
-
-                                answerLabel.textSize = 270.toFloat()
-                                answerLabel.text = allAnsArray[rand].toString()
-                                QNumNumBox.text = qNum.toString()
-                                qNum++
-                                summonHistory.append(allAnsArray[rand].toString())
-                                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
-                                    summonHistory.append("\n")
+                                summon(270f, allAnsArray[rand].toString(), allAnsArray[rand].toString(), false)
                             }else {
                                 val builder = AlertDialog.Builder(this)
                                 builder.setTitle("錯誤!")
@@ -171,8 +151,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 "多選題(A-D)" -> {  //多選題(A-D)
-                    qNum++
-
                     val fiveAnsArray = ArrayList<Char>()
                     fiveAnsArray.add('A')
                     fiveAnsArray.add('B')
@@ -211,17 +189,9 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
 
-                    answerLabel.textSize = 90.toFloat()
-                    answerLabel.text = lastAnsStr
-                    QNumNumBox.text = qNum.toString()
-                    if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
-                        summonHistory.append("\n")
-                    summonHistory.append("[$lastAnsStr]")
-                    summonHistory.append("\n")
+                    summon(90f, lastAnsStr, "[$lastAnsStr]", true)
                 }
                 "多選題(A-E)" -> { //多選題(A-E)
-                    qNum++
-
                     val fiveAnsArray = ArrayList<Char>()
                     fiveAnsArray.add('A')
                     fiveAnsArray.add('B')
@@ -263,13 +233,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
 
-                    answerLabel.textSize = 90.toFloat()
-                    answerLabel.text = lastAnsStr
-                    QNumNumBox.text = qNum.toString()
-                    if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
-                        summonHistory.append("\n")
-                    summonHistory.append("[$lastAnsStr]")
-                    summonHistory.append("\n")
+                    summon(90f, lastAnsStr, "[$lastAnsStr]", true)
                 }
                 "多選題(第一選項, 最後選項)" -> {  //多選題(第一選項, 最後選項)
                     try {
@@ -306,13 +270,7 @@ class MainActivity : AppCompatActivity() {
                                     }
                                 }
 
-                                answerLabel.textSize = 60.toFloat()
-                                answerLabel.text = lastAns
-                                QNumNumBox.text = qNum.toString()
-                                qNum++
-                                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
-                                    summonHistory.append("\n")
-                                summonHistory.append("[$lastAns]")
+                                summon(60f, lastAns, "[$lastAns]", true)
                             }else {
                                 val builder = AlertDialog.Builder(this)
                                 builder.setTitle("錯誤!")
@@ -343,7 +301,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 "多選項填空(第一選項, 最後選項)" -> {  //多選項填空(第一選項, 最後選項)
                     try {
-                        qNum++
                         val randAnsFirst :Char = RandAnsFirst.text.toString()[0]
                         val randAnsLast :Char = RandAnsLast.text.toString()[0]
                         val allAnsArray = ArrayList<Char>()
@@ -360,13 +317,7 @@ class MainActivity : AppCompatActivity() {
                                     displayAns += allAnsArray[rand]
                                     allAnsArray.removeAt(rand)
                                 }
-                                answerLabel.textSize = 30.toFloat()
-                                answerLabel.text = displayAns
-                                QNumNumBox.text = qNum.toString()
-                                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
-                                    summonHistory.append("\n")
-                                summonHistory.append("[$displayAns]")
-                                summonHistory.append("\n")
+                                summon(30f, displayAns, "[$displayAns]", true)
                             }else {
                                 val builder = AlertDialog.Builder(this)
                                 builder.setTitle("錯誤!")
@@ -411,13 +362,7 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         if (displayAns != "") {
-                            answerLabel.textSize = 30.toFloat()
-                            answerLabel.text = displayAns
-                            QNumNumBox.text = qNum.toString()
-                            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
-                                summonHistory.append("\n")
-                            summonHistory.append("[$displayAns]")
-                            summonHistory.append("\n")
+                            summon(30f, displayAns, "[$displayAns]", true)
                         }else {
                             val builder = AlertDialog.Builder(this)
                             builder.setTitle("錯誤!")
@@ -434,14 +379,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 "是非題(O, X)" -> {  //是非題
-                    qNum++
                     rand = (truefalse.indices).random()
-                    answerLabel.textSize = 270.toFloat()
-                    answerLabel.text = truefalse[rand]
-                    QNumNumBox.text = qNum.toString()
-                    summonHistory.append(truefalse[rand])
-                    if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
-                        summonHistory.append("\n")
+                    summon(270f, truefalse[rand], truefalse[rand], false)
                 }
                 "隨機數字(最大值)" -> {  //最大值隨機數字
                     try {
@@ -462,15 +401,8 @@ class MainActivity : AppCompatActivity() {
                                 builder.show()
                             }
                             else -> {
-                                qNum++
                                 rand = (1..randomNumMax.toInt()).random()
-                                answerLabel.textSize = 60.toFloat()
-                                answerLabel.text = rand.toString()
-                                QNumNumBox.text = qNum.toString()
-                                if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
-                                    summonHistory.append("\n")
-                                summonHistory.append("($rand)")
-                                summonHistory.append("\n")
+                                summon(60f, rand.toString(), "($rand)", true)
                             }
                         }
                     }catch (e: NumberFormatException) {
@@ -511,15 +443,8 @@ class MainActivity : AppCompatActivity() {
                             builder.setPositiveButton("確定") { dialogInterface: DialogInterface, i: Int ->}
                             builder.show()
                         }else {
-                            qNum++
                             rand = (randomIntMin..randomIntMax).random()
-                            answerLabel.textSize = 60.toFloat()
-                            answerLabel.text = rand.toString()
-                            QNumNumBox.text = qNum.toString()
-                            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
-                                summonHistory.append("\n")
-                            summonHistory.append("($rand)")
-                            summonHistory.append("\n")
+                            summon(60f, rand.toString(), "($rand)", true)
                         }
                     }catch (e: NumberFormatException) {
                         if(RandIntMax.text.isEmpty() || RandIntMin.text.isEmpty()) {
@@ -621,5 +546,22 @@ class MainActivity : AppCompatActivity() {
         RandAnsLast.visibility = View.INVISIBLE
         RandAnsAll.visibility = View.INVISIBLE
         RandAnsAllHint.visibility = View.INVISIBLE
+    }
+
+    private fun summon(textSize: Float, display: String, append: String, forceNewline: Boolean) {
+        qNum++
+        answerLabel.textSize = textSize
+        answerLabel.text = display
+        QNumNumBox.text = qNum.toString()
+        if(forceNewline) {
+            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].isNotEmpty())
+                summonHistory.append("\n")
+            summonHistory.append(append)
+            summonHistory.append("\n")
+        }else {
+            summonHistory.append(append)
+            if(summonHistory.split("\n")[summonHistory.split("\n").size - 1].length % 5 == 0)
+                summonHistory.append("\n")
+        }
     }
 }
