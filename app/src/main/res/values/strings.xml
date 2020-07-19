@@ -11,4 +11,17 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="tapToGenerate">按下生成鍵生成選項</string>
+    <string name="tapBtn">生成!</string>
+    <string name="historyBtn">生成歷史</string>
+    <string name="zeroingBtn">歸零</string>
+    <string name="QNumText">題號:</string>
+    <string name="generateMode">生成模式</string>
+    <string name="type_in_first_choice_hint">請輸入第一個選項</string>
+    <string name="type_in_last_choice_hint">請輸入最後一個選項</string>
+    <string name="type_in_min_hint">請輸入最小值</string>
+    <string name="type_in_all_possible_hint">請輸入所有選項</string>
+    <string name="type_in_max_hint">請輸入最大值</string>
+    <string name="one_char_one_choice_hint">⚠每個字符代表一個選項，若選項之字數超過1個，請使用其他符號代替。</string>
 </resources>

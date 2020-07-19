@@ -11,8 +11,6 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Setting"></activity>
-        <activity android:name=".About" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
