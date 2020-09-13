@@ -26,25 +26,6 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity() {
     //題號
     private var qNum : Int = 0
-    //4個選項的陣列
-    private var answers4 = arrayOf("A", "B", "C", "D")
-    //5個選項的陣列
-    private var answers5 = arrayOf("A", "B", "C", "D", "E")
-    //是非題陣列
-    private var truefalse = arrayOf("O", "X")
-    //生成模式
-    private val summonTypes = arrayListOf(
-        "單選題(A-D)",
-        "單選題(A-E)",
-        "單選題(第一選項, 最後選項)",
-        "多選題(A-D)",
-        "多選題(A-E)",
-        "多選題(第一選項, 最後選項)",
-        "多選項填空(第一選項, 最後選項)",
-        "多選項填空(全部選項)",
-        "是非題(O, X)",
-        "隨機數字(最大值)",
-        "隨機數字(最大值, 最小值)")
     //生成歷史
     private var summonHistory = StringBuffer()
 
@@ -101,7 +82,18 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         //設定生成模式下拉式選項
-        val spinnerList = ArrayAdapter(this, android.R.layout.simple_spinner_item, summonTypes)
+        val spinnerList = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrayOf(
+            "單選題(A-D)",
+            "單選題(A-E)",
+            "單選題(第一選項, 最後選項)",
+            "多選題(A-D)",
+            "多選題(A-E)",
+            "多選題(第一選項, 最後選項)",
+            "多選項填空(第一選項, 最後選項)",
+            "多選項填空(全部選項)",
+            "是非題(O, X)",
+            "隨機數字(最大值)",
+            "隨機數字(最大值, 最小值)"))
         spinnerList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         main_summonType.adapter = spinnerList
 
@@ -164,13 +156,13 @@ class MainActivity : AppCompatActivity() {
                 when (main_summonType.selectedItem.toString()) {
                     "單選題(A-D)" -> {  //單選題(A-D)
                         //生成隨機選項
-                        val rand = (answers4.indices).random()
-                        generateAnswer(270f, answers4[rand], answers4[rand], false)
+                        val rand = (arrayOf("A", "B", "C", "D").indices).random()
+                        generateAnswer(270f, arrayOf("A", "B", "C", "D")[rand], arrayOf("A", "B", "C", "D")[rand], false)
                     }
                     "單選題(A-E)" -> {  //單選題(A-E)
                         //生成隨機選項
-                        val rand = (answers5.indices).random()
-                        generateAnswer(270f, answers5[rand], answers5[rand], false)
+                        val rand = (arrayOf("A", "B", "C", "D", "E").indices).random()
+                        generateAnswer(270f, arrayOf("A", "B", "C", "D", "E")[rand], arrayOf("A", "B", "C", "D", "E")[rand], false)
                     }
                     "單選題(第一選項, 最後選項)" -> {  //單選題(第一選項, 最後選項)
                         //如果RandAnsFirst和RandAnsLast皆不為空
@@ -260,12 +252,12 @@ class MainActivity : AppCompatActivity() {
                             val set = cloze(array)
                             generateAnswer(30f, set, "[$set]", true)
                         }else {  //如果RandAnsAll為空，則彈出錯誤視窗
-                            showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定", null)
+                            showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
                     "是非題(O, X)" -> {  //是非題
-                        val rand = (truefalse.indices).random()
-                        generateAnswer(270f, truefalse[rand], truefalse[rand], false)
+                        val rand = (arrayOf("O", "X").indices).random()
+                        generateAnswer(270f, arrayOf("O", "X")[rand], arrayOf("O", "X")[rand], false)
                     }
                     "隨機數字(最大值)" -> {  //最大值隨機數字
                         //如果RandIntMax不為空
@@ -303,6 +295,8 @@ class MainActivity : AppCompatActivity() {
                                 val rand = (randomIntMin..randomIntMax).random()
                                 generateAnswer(60f, rand.toString(), "($rand)", true)
                             }
+                        }else {
+                            showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
                     else ->
