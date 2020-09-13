@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     //是非題陣列
     private var truefalse = arrayOf("O", "X")
     //生成模式
-    private val summonTypes = arrayOf(
+    private val summonTypes = arrayListOf(
         "單選題(A-D)",
         "單選題(A-E)",
         "單選題(第一選項, 最後選項)",
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         //生成模式選項選取監聽器
         main_summonType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                showSimpleAlertDialog("錯誤!", "請選擇正確的生成選項", "確定", null)
+                showSimpleAlertDialog("錯誤!", "請選擇正確的生成選項", "確定")
             }
 
             //當選擇一個生成模式選項時
@@ -187,27 +187,17 @@ class MainActivity : AppCompatActivity() {
                                     }
                                     //生成隨機選項
                                     val rand = (0 until allAnsArray.size).random()
-                                    generateAnswer(
-                                        270f,
-                                        allAnsArray[rand].toString(),
-                                        allAnsArray[rand].toString(),
-                                        false
-                                    )
+                                    generateAnswer(270f, allAnsArray[rand].toString(), allAnsArray[rand].toString(), false)
                                 } else  //如果randAnsFirst比randAnsLast大
                                 //彈出錯誤視窗
-                                    showSimpleAlertDialog(
-                                        "錯誤!",
-                                        "第一個英文字母必須比最後一個小",
-                                        "確定",
-                                        null
-                                    )
+                                    showSimpleAlertDialog("錯誤!", "第一個英文字母必須比最後一個小", "確定")
                             } else {  //如果randAnsFirst和randAnsLast其一不是大寫英文字母
                                 //彈出錯誤視窗
-                                showSimpleAlertDialog("錯誤!", "只能輸入英文字母", "確定", null)
+                                showSimpleAlertDialog("錯誤!", "只能輸入英文字母", "確定")
                             }
                         }else {  //如果randAnsFirst和randAnsLast其一為空
                             //彈出錯誤視窗
-                            showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定", null)
+                            showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
                     "多選題(A-D)" -> {  //多選題(A-D)
@@ -238,22 +228,11 @@ class MainActivity : AppCompatActivity() {
                                     val set = randomMultiple(1, randAnsLast - (randAnsFirst - 1), allAnsArray)
                                     generateAnswer(60f, set, "[$set]", true)
                                 } else  //如果randAnsFirst比randAnsLast大
-                                    showSimpleAlertDialog(
-                                        "錯誤!",
-                                        "第一個英文字母必須比最後一個小",
-                                        "確定",
-                                        null
-                                    )
+                                    showSimpleAlertDialog("錯誤!", "第一個英文字母必須比最後一個小", "確定")
                             } else
-                                showSimpleAlertDialog("錯誤!",
-                                    "只能輸入英文字母",
-                                    "確定",
-                                    null)
+                                showSimpleAlertDialog("錯誤!", "只能輸入英文字母", "確定")
                         } else {
-                            showSimpleAlertDialog("錯誤!",
-                                "輸入值不得為空",
-                                "確定",
-                                null)
+                            showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
                     "多選項填空(第一選項, 最後選項)" -> {  //多選項填空(第一選項, 最後選項)
@@ -267,24 +246,11 @@ class MainActivity : AppCompatActivity() {
                                     val set = cloze(randAnsFirst, randAnsLast)
                                     generateAnswer(30f, set, "[$set]",true)
                                 }else
-                                    showSimpleAlertDialog(
-                                        "錯誤!",
-                                        "第一個英文字母必須比最後一個小",
-                                        "確定",
-                                        null
-                                    )
+                                    showSimpleAlertDialog("錯誤!", "第一個英文字母必須比最後一個小", "確定")
                             }else
-                                showSimpleAlertDialog(
-                                    "錯誤!",
-                                    "只能輸入英文字母",
-                                    "確定",
-                                    null)
+                                showSimpleAlertDialog("錯誤!", "只能輸入英文字母", "確定")
                         }else {
-                            showSimpleAlertDialog(
-                                "錯誤!",
-                                "輸入值不得為空",
-                                "確定",
-                                null)
+                            showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
                     "多選項填空(全部選項)" -> {  //多選項填空(全部選項)
@@ -313,25 +279,15 @@ class MainActivity : AppCompatActivity() {
                                 }
                                 //若小於1，則彈出錯誤視窗
                                 in Integer.MIN_VALUE..0 -> {
-                                    showSimpleAlertDialog(
-                                        "錯誤!",
-                                        "輸入值不得小於1，若最大值慾設為0，請使用\"隨機數字(最大值, 最小值)\"",
-                                        "確定",
-                                        null
-                                    )
+                                    showSimpleAlertDialog("錯誤!", "輸入值不得小於1，若最大值慾設為0，請使用\"隨機數字(最大值, 最小值)\"","確定")
                                 }
                                 //若大於等於1000000000，則彈出錯誤視窗
                                 in 1000000000..Integer.MAX_VALUE -> {
-                                    showSimpleAlertDialog(
-                                        "錯誤!",
-                                        "輸入值不得大於999999999",
-                                        "確定",
-                                        null
-                                    )
+                                    showSimpleAlertDialog("錯誤!", "輸入值不得大於999999999", "確定")
                                 }
                             }
                         }else {
-                            showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定", null)
+                            showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
                     "隨機數字(最大值, 最小值)" -> {  //最小值-最大值隨機數字
@@ -339,14 +295,9 @@ class MainActivity : AppCompatActivity() {
                             val randomIntMax: Int = RandIntMax.text.toString().toInt()
                             val randomIntMin: Int = RandIntMin.text.toString().toInt()
                             if (randomIntMin > randomIntMax)
-                                showSimpleAlertDialog("錯誤!", "最小值不得大於最大值", "確定", null)
+                                showSimpleAlertDialog("錯誤!", "最小值不得大於最大值", "確定")
                             else if (randomIntMin > 999999999 || randomIntMax > 999999999) {
-                                showSimpleAlertDialog(
-                                    "錯誤!",
-                                    "輸入值不得大於999999999",
-                                    "確定",
-                                    null
-                                )
+                                showSimpleAlertDialog("錯誤!", "輸入值不得大於999999999", "確定")
                             }
                             else {
                                 val rand = (randomIntMin..randomIntMax).random()
@@ -355,7 +306,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     else ->
-                        showSimpleAlertDialog("錯誤!", "請選擇正確的生成選項", "確定", null)
+                        showSimpleAlertDialog("錯誤!", "請選擇正確的生成選項", "確定")
                 }
             }catch (err: Throwable) {
                 val builder = AlertDialog.Builder(this)
@@ -423,18 +374,8 @@ class MainActivity : AppCompatActivity() {
                     LinkMovementMethod.getInstance()
             }
             /*R.id.action_save -> {
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("存檔")
-                builder.setView(R.id.action_save)
-                builder.setCancelable(true)
-                builder.setPositiveButton("確定") { dialogInterface: DialogInterface, int: Int ->
-                    var save = JSONObject()
-                    save.put("name", filename.text)
-                    save.put("history", summonHistory)
 
-                    val sd_main = getExternalFilesDir("saves")
-
-                    //TODO 存檔系統
+                    //TODO 存檔系統。 哦好煩哦我懶得做了
 
                 }
             }*/
@@ -612,6 +553,12 @@ class MainActivity : AppCompatActivity() {
                                positiveButtonText: String,
                                positiveButtonListener: DialogInterface.OnClickListener?) {
         setAlertDialog(title, message, true, 0, true, positiveButtonText, positiveButtonListener, false, null, null, false, null, null).show()
+    }
+
+    fun showSimpleAlertDialog(title: String?,
+                              message: String?,
+                              positiveButtonText: String) {
+        setAlertDialog(title, message, true, 0, true, positiveButtonText, null, false, null, null, false, null, null).show()
     }
 
     /**

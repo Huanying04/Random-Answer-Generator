@@ -148,19 +148,22 @@
     <EditText
         android:id="@+id/RandAnsAll"
         android:layout_width="0dp"
-        android:layout_height="120dp"
+        android:layout_height="0dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/main_summonType"
         android:autofillHints=""
         android:ems="10"
-        android:inputType=""
         android:gravity="top|start"
         android:hint="@string/type_in_all_possible_hint"
+        android:inputType=""
         android:scrollbars="vertical"
         android:selectAllOnFocus="false"
         android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/RandAnsAllHint"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/RandAnsFirst"
         app:layout_constraintTop_toBottomOf="@+id/summonButton" />
 
     <EditText
@@ -184,13 +187,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/RandAnsAll"
-        android:layout_marginTop="9dp"
+        android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/main_summonType"
         android:ems="10"
         android:text="@string/one_char_one_choice_hint"
         android:textColor="#404040"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/RandAnsAll"
-        app:layout_constraintStart_toStartOf="@+id/RandAnsAll"
-        app:layout_constraintTop_toBottomOf="@+id/RandAnsAll" />
+        app:layout_constraintStart_toStartOf="@+id/RandAnsAll" />
 </androidx.constraintlayout.widget.ConstraintLayout>
