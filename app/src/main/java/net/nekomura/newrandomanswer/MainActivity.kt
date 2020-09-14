@@ -29,50 +29,6 @@ class MainActivity : AppCompatActivity() {
     //生成歷史
     private var summonHistory = StringBuffer()
 
-    //RandAnsFirst的TextWatcher，自動將RandAnsFirst的文字改成大寫
-    private val randAnsFirstListener = object: TextWatcher {
-
-        override fun afterTextChanged(s: Editable) {}
-
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            //如果RandAnsFirst不為空
-            if (s.isNotEmpty()) {
-                //先取消監聽
-                RandAnsFirst.removeTextChangedListener(this)
-                //將第一個字符轉為大寫(因為設定長度最多為1所以只需要設定第1個即可)
-                RandAnsFirst.setText(s[0].toUpperCase().toString(), TextView.BufferType.EDITABLE)
-                //將輸入位置調至後
-                RandAnsFirst.setSelection(RandAnsFirst.length())
-                //重新裝上監聽
-                RandAnsFirst.addTextChangedListener(this)
-            }
-        }
-    }
-
-    //RandAnsLast的TextWatcher，自動將RandAnsLast的文字改成大寫
-    private val randAnsLastListener = object : TextWatcher {
-
-        override fun afterTextChanged(s: Editable) {}
-
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            //如果RandAnsLast不為空
-            if (s.isNotEmpty()) {
-                //先取消監聽
-                RandAnsLast.removeTextChangedListener(this)
-                //將第一個字符轉為大寫(因為設定長度最多為1所以只需要設定第1個即可)
-                RandAnsLast.setText(s[0].toUpperCase().toString(), TextView.BufferType.EDITABLE)
-                //將輸入位置調至後
-                RandAnsLast.setSelection(RandAnsLast.length())
-                //重新裝上監聽
-                RandAnsLast.addTextChangedListener(this)
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -144,10 +100,48 @@ class MainActivity : AppCompatActivity() {
         }
 
         //自動將RandAnsFirst的文字改成大寫
-        RandAnsFirst.addTextChangedListener(randAnsFirstListener)
+        RandAnsFirst.addTextChangedListener(object: TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                //如果RandAnsFirst不為空
+                if (s.isNotEmpty()) {
+                    //先取消監聽
+                    RandAnsFirst.removeTextChangedListener(this)
+                    //將第一個字符轉為大寫(因為設定長度最多為1所以只需要設定第1個即可)
+                    RandAnsFirst.setText(s[0].toUpperCase().toString(), TextView.BufferType.EDITABLE)
+                    //將輸入位置調至後
+                    RandAnsFirst.setSelection(RandAnsFirst.length())
+                    //重新裝上監聽
+                    RandAnsFirst.addTextChangedListener(this)
+                }
+            }
+        })
 
         //自動將RandAnsLast的文字改成大寫
-        RandAnsLast.addTextChangedListener(randAnsLastListener)
+        RandAnsLast.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                //如果RandAnsLast不為空
+                if (s.isNotEmpty()) {
+                    //先取消監聽
+                    RandAnsLast.removeTextChangedListener(this)
+                    //將第一個字符轉為大寫(因為設定長度最多為1所以只需要設定第1個即可)
+                    RandAnsLast.setText(s[0].toUpperCase().toString(), TextView.BufferType.EDITABLE)
+                    //將輸入位置調至後
+                    RandAnsLast.setSelection(RandAnsLast.length())
+                    //重新裝上監聽
+                    RandAnsLast.addTextChangedListener(this)
+                }
+            }
+        })
 
         //當按下"生成!"按鈕時
         summonButton.setOnClickListener {
@@ -155,15 +149,15 @@ class MainActivity : AppCompatActivity() {
                 //當選中某個選項時
                 when (main_summonType.selectedItem.toString()) {
                     "單選題(A-D)" -> {  //單選題(A-D)
-                        //生成隨機選項
                         val rand = (arrayOf("A", "B", "C", "D").indices).random()
                         generateAnswer(270f, arrayOf("A", "B", "C", "D")[rand], arrayOf("A", "B", "C", "D")[rand], false)
                     }
+
                     "單選題(A-E)" -> {  //單選題(A-E)
-                        //生成隨機選項
                         val rand = (arrayOf("A", "B", "C", "D", "E").indices).random()
                         generateAnswer(270f, arrayOf("A", "B", "C", "D", "E")[rand], arrayOf("A", "B", "C", "D", "E")[rand], false)
                     }
+
                     "單選題(第一選項, 最後選項)" -> {  //單選題(第一選項, 最後選項)
                         //如果RandAnsFirst和RandAnsLast皆不為空
                         if (RandAnsFirst.text.isNotEmpty() && RandAnsLast.text.isNotEmpty()) {
@@ -177,7 +171,7 @@ class MainActivity : AppCompatActivity() {
                                     for (ch: Char in randAnsFirst..randAnsLast) {
                                         allAnsArray.add(ch)
                                     }
-                                    //生成隨機選項
+
                                     val rand = (0 until allAnsArray.size).random()
                                     generateAnswer(270f, allAnsArray[rand].toString(), allAnsArray[rand].toString(), false)
                                 } else  //如果randAnsFirst比randAnsLast大
@@ -192,14 +186,17 @@ class MainActivity : AppCompatActivity() {
                             showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
+
                     "多選題(A-D)" -> {  //多選題(A-D)
                         val set = randomMultiple(arrayListOf('A', 'B', 'C', 'D'))
                         generateAnswer(90f, set, "[$set]", true)
                     }
+
                     "多選題(A-E)" -> { //多選題(A-E)
                         val set = randomMultiple(arrayListOf('A', 'B', 'C', 'D', 'E'))
                         generateAnswer(90f, set, "[$set]", true)
                     }
+
                     "多選題(第一選項, 最後選項)" -> {  //多選題(第一選項, 最後選項)
                         //如果RandAnsFirst和RandAnsLast皆不為空
                         if (RandAnsFirst.text.isNotEmpty() && RandAnsLast.text.isNotEmpty()) {
@@ -227,6 +224,7 @@ class MainActivity : AppCompatActivity() {
                             showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
+
                     "多選項填空(第一選項, 最後選項)" -> {  //多選項填空(第一選項, 最後選項)
                         //如果RandAnsFirst和RandAnsLast皆不為空
                         if (RandAnsFirst.text.isNotEmpty() && RandAnsLast.text.isNotEmpty()) {
@@ -245,6 +243,7 @@ class MainActivity : AppCompatActivity() {
                             showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
+
                     "多選項填空(全部選項)" -> {  //多選項填空(全部選項)
                         //如果RandAnsAll不為空
                         if (RandAnsAll.text.isNotEmpty()) {
@@ -255,10 +254,12 @@ class MainActivity : AppCompatActivity() {
                             showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
+
                     "是非題(O, X)" -> {  //是非題
                         val rand = (arrayOf("O", "X").indices).random()
                         generateAnswer(270f, arrayOf("O", "X")[rand], arrayOf("O", "X")[rand], false)
                     }
+
                     "隨機數字(最大值)" -> {  //最大值隨機數字
                         //如果RandIntMax不為空
                         if (RandIntMax.text.isNotEmpty()) {
@@ -282,6 +283,7 @@ class MainActivity : AppCompatActivity() {
                             showSimpleAlertDialog("錯誤!", "輸入值不得為空", "確定")
                         }
                     }
+
                     "隨機數字(最大值, 最小值)" -> {  //最小值-最大值隨機數字
                         if (RandIntMax.text.isNotEmpty() && RandIntMin.text.isNotEmpty()) {
                             val randomIntMax: Int = RandIntMax.text.toString().toInt()
@@ -540,15 +542,7 @@ class MainActivity : AppCompatActivity() {
      * @param title 標題
      * @param message 內容
      * @param positiveButtonText Positive Button的文字
-     * @param positiveButtonListener 按下Positive Button後執行的程式碼
      */
-    fun showSimpleAlertDialog(title: String?,
-                               message: String?,
-                               positiveButtonText: String,
-                               positiveButtonListener: DialogInterface.OnClickListener?) {
-        setAlertDialog(title, message, true, 0, true, positiveButtonText, positiveButtonListener, false, null, null, false, null, null).show()
-    }
-
     fun showSimpleAlertDialog(title: String?,
                               message: String?,
                               positiveButtonText: String) {

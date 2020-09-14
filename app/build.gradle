@@ -10,8 +10,8 @@ android {
         applicationId "net.nekomura.newrandomanswer"
         minSdkVersion 22
         targetSdkVersion 29
-        versionCode 13
-        versionName "1.0.6.4 fixed-01-200913"
+        versionCode 14
+        versionName "1.0.6.4 fixed-02-200914"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
