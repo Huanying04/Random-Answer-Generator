@@ -14,7 +14,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.content_main.*
@@ -354,7 +353,7 @@ class MainActivity : AppCompatActivity() {
             //關於
             R.id.action_about -> {
                 val finalAlert: AlertDialog = setAlertDialog(getString(R.string.about),
-                    R.string.about_string,
+                    getString(R.string.about_string),
                     false,
                     0,
                     true,
@@ -472,34 +471,6 @@ class MainActivity : AppCompatActivity() {
             builder.setNegativeButton(negativeButtonText, negativeButtonListener)
         if (setNeutralButton)
             builder.setNeutralButton(neutralButtonText, neutralButtonListener)
-
-        return builder
-    }
-
-    private fun setAlertDialog(title: String?,
-                               @StringRes message: Int,
-                               setIconAttribute: Boolean,
-                               iconAttribute: Int,
-                               setPositiveButton: Boolean,
-                               positiveButtonText: String?,
-                               positiveButtonListener: DialogInterface.OnClickListener?,
-                               setNegativeButton: Boolean,
-                               negativeButtonText: String?,
-                               negativeButtonListener: DialogInterface.OnClickListener?,
-                               setNeutralButton: Boolean,
-                               neutralButtonText: String?,
-                               neutralButtonListener: DialogInterface.OnClickListener?): AlertDialog.Builder {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(title)
-        builder.setMessage(message)
-        if (setIconAttribute)
-            builder.setIconAttribute(iconAttribute)
-        if (setPositiveButton)
-            builder.setPositiveButton(positiveButtonText, positiveButtonListener)
-        if (setNegativeButton)
-            builder.setPositiveButton(negativeButtonText, negativeButtonListener)
-        if (setNeutralButton)
-            builder.setPositiveButton(neutralButtonText, neutralButtonListener)
 
         return builder
     }
