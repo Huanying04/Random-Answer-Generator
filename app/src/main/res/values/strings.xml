@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">隨機選項生成器</string>
     <string name="action_about">關於…</string>
@@ -15,9 +16,40 @@
     <string name="type_in_first_choice_hint">請輸入第一個選項</string>
     <string name="type_in_last_choice_hint">請輸入最後一個選項</string>
     <string name="type_in_min_hint">請輸入最小值</string>
-    <string name="type_in_all_possible_hint">請輸入所有選項</string>
     <string name="type_in_max_hint">請輸入最大值</string>
-    <string name="one_char_one_choice_hint">⚠每個字符代表一個選項，若選項之字數超過1個，請使用其他符號代替。</string>
+    <string name="type_in_all_possible_hint">請輸入所有選項</string>
+    <string name="one_char_one_choice_hint">⚠每個字符代表一個選項，若選項之字數超過1個，建議使用其他符號代替。</string>
 
     <string name="filename_hint">存檔名稱</string>
+
+    <string name="multiple_choice_A_D">單選題(A-D)</string>
+    <string name="multiple_choice_A_E">單選題(A-E)</string>
+    <string name="multiple_choice_custom">單選題(第一選項, 最後選項)</string>
+    <string name="multiple_selection_A_D">多選題(A-D)</string>
+    <string name="multiple_selection_A_E">多選題(A-E)</string>
+    <string name="multiple_selection_custom">多選題(第一選項, 最後選項)</string>
+    <string name="cloze_custom">多選項填空(第一選項, 最後選項)</string>
+    <string name="cloze_custom_all">多選項填空(全部選項)</string>
+    <string name="yes_or_no">是非題(O, X)</string>
+    <string name="random_number_max">隨機數字(最大值)</string>
+    <string name="random_number_min_max">隨機數字(最大值, 最小值)</string>
+
+    <string name="error">錯誤!</string>
+    <string name="warning">警告</string>
+    <string name="confirm">確定</string>
+    <string name="cancel">取消</string>
+    <string name="about">關於</string>
+    <string name="history">生成歷史</string>
+    <string name="copy_to_clipboard">複製到剪貼簿</string>
+
+    <string name="zeroed">已歸零</string>
+    <string name="before_zero_hint">這個動作會使"生成歷史"及"題號"通通歸零，將不會保存。是否繼續？</string>
+
+    <string name="warning_input_empty">輸入值不得為空</string>
+    <string name="warning_english_alphabet">只能輸入英文字母</string>
+    <string name="warning_illegal_letter_bound">第一個英文字母必須比最後一個小</string>
+    <string name="warning_illegal_bound">最小值不得大於最大值</string>
+    <string name="warning_lower_than_minimum">輸入值不得小於1，若最大值慾設為0，請使用"隨機數字(最大值, 最小值)"</string>
+    <string name="warning_greater_than_maximum">輸入值不得大於999999999</string>
+    <string name="warning_incorrect_selection">請選擇正確的生成選項</string>
 </resources>

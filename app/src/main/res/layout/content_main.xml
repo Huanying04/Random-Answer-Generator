@@ -6,28 +6,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
-        android:id="@+id/QNumNumBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:gravity="end"
-        android:text="@string/_0"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/QNumTextBox"
-        app:layout_constraintTop_toBottomOf="@+id/QNumTextBox" />
-
-    <Spinner
-        android:id="@+id/main_summonType"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/RandAnsFirst"
-        app:layout_constraintStart_toStartOf="@+id/summonButton"
-        app:layout_constraintTop_toBottomOf="@+id/MainSummonTypeLabel" />
-
-    <TextView
         android:id="@+id/answerLabel"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,38 +26,18 @@
         android:layout_width="0dp"
         android:layout_height="78dp"
         android:layout_marginStart="18dp"
+        android:layout_marginEnd="5dp"
         android:text="@string/tapBtn"
         android:textColorHighlight="#D3FFFFFF"
         android:textColorLink="#03A9F4"
-        app:layout_constraintEnd_toStartOf="@+id/QNumTextBox"
+        app:layout_constraintEnd_toStartOf="@+id/QNumTextLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/answerLabel" />
 
-    <Button
-        android:id="@+id/summonHistoryButton"
-        android:layout_width="87dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/historyBtn"
-        android:textColorHighlight="#D3FFFFFF"
-        android:textColorLink="#03A9F4"
-        app:layout_constraintStart_toStartOf="@+id/summonButton"
-        app:layout_constraintTop_toBottomOf="@+id/main_summonType" />
-
-    <Button
-        android:id="@+id/ResetButton"
-        android:layout_width="87dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="1dp"
-        android:text="@string/zeroingBtn"
-        android:textColorHighlight="#D3FFFFFF"
-        android:textColorLink="#03A9F4"
-        app:layout_constraintStart_toStartOf="@+id/summonButton"
-        app:layout_constraintTop_toBottomOf="@+id/summonHistoryButton" />
 
     <TextView
-        android:id="@+id/QNumTextBox"
-        android:layout_width="87dp"
+        android:id="@+id/QNumTextLabel"
+        android:layout_width="0dp"
         android:layout_height="23dp"
         android:layout_marginEnd="15dp"
         android:gravity="end"
@@ -89,7 +47,19 @@
         app:layout_constraintTop_toBottomOf="@+id/answerLabel" />
 
     <TextView
-        android:id="@+id/MainSummonTypeLabel"
+        android:id="@+id/QNumLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:gravity="end"
+        android:text="@string/_0"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/QNumTextLabel"
+        app:layout_constraintTop_toBottomOf="@+id/QNumTextLabel" />
+
+    <TextView
+        android:id="@+id/summonTypeHintLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
@@ -98,13 +68,45 @@
         app:layout_constraintStart_toStartOf="@+id/summonButton"
         app:layout_constraintTop_toBottomOf="@+id/summonButton" />
 
+    <Spinner
+        android:id="@+id/summonTypeSpinner"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/randomAnswerFirst"
+        app:layout_constraintStart_toStartOf="@+id/summonButton"
+        app:layout_constraintTop_toBottomOf="@+id/summonTypeHintLabel" />
+
+    <Button
+        android:id="@+id/historyButton"
+        android:layout_width="87dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/historyBtn"
+        android:textColorHighlight="#D3FFFFFF"
+        android:textColorLink="#03A9F4"
+        app:layout_constraintStart_toStartOf="@+id/summonButton"
+        app:layout_constraintTop_toBottomOf="@+id/summonTypeSpinner" />
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="87dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="1dp"
+        android:text="@string/zeroingBtn"
+        android:textColorHighlight="#D3FFFFFF"
+        android:textColorLink="#03A9F4"
+        app:layout_constraintStart_toStartOf="@+id/summonButton"
+        app:layout_constraintTop_toBottomOf="@+id/historyButton" />
+
     <EditText
-        android:id="@+id/RandAnsFirst"
+        android:id="@+id/randomAnswerFirst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="16dp"
-        android:layout_toEndOf="@+id/main_summonType"
+        android:layout_toEndOf="@+id/summonTypeSpinner"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/type_in_first_choice_hint"
@@ -115,12 +117,12 @@
         app:layout_constraintTop_toBottomOf="@+id/summonButton" />
 
     <EditText
-        android:id="@+id/RandAnsLast"
+        android:id="@+id/randomAnswerLast"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="16dp"
-        android:layout_toEndOf="@+id/main_summonType"
+        android:layout_toEndOf="@+id/summonTypeSpinner"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/type_in_last_choice_hint"
@@ -128,15 +130,15 @@
         android:maxLength="1"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RandIntMax" />
+        app:layout_constraintTop_toBottomOf="@+id/randomNumberMax" />
 
     <EditText
-        android:id="@+id/RandIntMin"
+        android:id="@+id/randomNumberMin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="16dp"
-        android:layout_toEndOf="@+id/main_summonType"
+        android:layout_toEndOf="@+id/summonTypeSpinner"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/type_in_min_hint"
@@ -144,36 +146,15 @@
         android:maxLength="9"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RandIntMax" />
+        app:layout_constraintTop_toBottomOf="@+id/randomNumberMax" />
 
     <EditText
-        android:id="@+id/RandAnsAll"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="5dp"
-        android:layout_toEndOf="@+id/main_summonType"
-        android:autofillHints=""
-        android:ems="10"
-        android:gravity="top|start"
-        android:hint="@string/type_in_all_possible_hint"
-        android:inputType=""
-        android:scrollbars="vertical"
-        android:selectAllOnFocus="false"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/RandAnsAllHint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/RandAnsFirst"
-        app:layout_constraintTop_toBottomOf="@+id/summonButton" />
-
-    <EditText
-        android:id="@+id/RandIntMax"
+        android:id="@+id/randomNumberMax"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="16dp"
-        android:layout_toEndOf="@+id/main_summonType"
+        android:layout_toEndOf="@+id/summonTypeSpinner"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/type_in_max_hint"
@@ -183,18 +164,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/summonButton" />
 
+    <EditText
+        android:id="@+id/allSelection"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/summonTypeSpinner"
+        android:autofillHints=""
+        android:ems="10"
+        android:gravity="top|start"
+        android:hint="@string/type_in_all_possible_hint"
+        android:inputType=""
+        android:scrollbars="vertical"
+        android:selectAllOnFocus="false"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/allSelectionHintLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/randomAnswerFirst"
+        app:layout_constraintTop_toBottomOf="@+id/summonButton" />
+
     <TextView
-        android:id="@+id/RandAnsAllHint"
+        android:id="@+id/allSelectionHintLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/RandAnsAll"
+        android:layout_below="@+id/allSelection"
         android:layout_marginBottom="5dp"
-        android:layout_toEndOf="@+id/main_summonType"
+        android:layout_toEndOf="@+id/summonTypeSpinner"
         android:ems="10"
         android:text="@string/one_char_one_choice_hint"
         android:textColor="#404040"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/RandAnsAll"
-        app:layout_constraintStart_toStartOf="@+id/RandAnsAll" />
+        app:layout_constraintStart_toEndOf="@+id/allSelection"
+        app:layout_constraintStart_toStartOf="@+id/allSelection" />
 </androidx.constraintlayout.widget.ConstraintLayout>
