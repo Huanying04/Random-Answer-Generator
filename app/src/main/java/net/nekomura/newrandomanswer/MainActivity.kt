@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         summonTypeSpinner.adapter = spinnerList
 
         //生成模式選項選取監聽器
-        summonTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        summonTypeSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 showSimpleAlertDialog(getString(R.string.error), getString(R.string.warning_incorrect_selection), getString(R.string.confirm))
             }
@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         //自動將RandAnsLast的文字改成大寫
-        randomAnswerLast.addTextChangedListener(object : TextWatcher {
+        randomAnswerLast.addTextChangedListener(object: TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
 
@@ -152,13 +152,13 @@ class MainActivity : AppCompatActivity() {
                 //當選中某個選項時
                 when (summonTypeSpinner.selectedItem.toString()) {
                     getString(R.string.multiple_choice_A_D) -> {  //單選題(A-D)
-                        val rand = (arrayOf("A", "B", "C", "D").indices).random()
-                        generateAnswer(270f, arrayOf("A", "B", "C", "D")[rand], arrayOf("A", "B", "C", "D")[rand], false)
+                        val rand = ('A'..'D').random().toString()
+                        generateAnswer(270f, rand, rand, false)
                     }
 
                     getString(R.string.multiple_choice_A_E) -> {  //單選題(A-E)
-                        val rand = (arrayOf("A", "B", "C", "D", "E").indices).random()
-                        generateAnswer(270f, arrayOf("A", "B", "C", "D", "E")[rand], arrayOf("A", "B", "C", "D", "E")[rand], false)
+                        val rand = ('A'..'E').random().toString()
+                        generateAnswer(270f, rand, rand, false)
                     }
 
                     getString(R.string.multiple_choice_custom) -> {  //單選題(第一選項, 最後選項)
@@ -259,8 +259,8 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     getString(R.string.yes_or_no) -> {  //是非題
-                        val rand = (arrayOf("O", "X").indices).random()
-                        generateAnswer(270f, arrayOf("O", "X")[rand], arrayOf("O", "X")[rand], false)
+                        val rand = arrayOf("O", "X").random()
+                        generateAnswer(270f, rand, rand, false)
                     }
 
                     getString(R.string.random_number_max) -> {  //最大值隨機數字
