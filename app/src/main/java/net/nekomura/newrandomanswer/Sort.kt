@@ -1,6 +1,6 @@
 package net.nekomura.newrandomanswer
 
-class Sort {
+object Sort {
 
     /**
      * 泡沫排列

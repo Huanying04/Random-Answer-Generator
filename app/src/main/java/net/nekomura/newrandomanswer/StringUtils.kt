@@ -1,6 +1,6 @@
 package net.nekomura.newrandomanswer
 
-class StringUtils {
+object StringUtils {
 
     fun toCharArrayList(string: String): ArrayList<Char> {
         val array = ArrayList<Char>()

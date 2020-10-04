@@ -7,6 +7,9 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_LEGACY
+import android.text.Html.fromHtml
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.view.Menu
@@ -166,7 +169,7 @@ class MainActivity : AppCompatActivity() {
                             val allAnsArray = ArrayList<Char>()
 
                             //如果randAnsFirst和randAnsLast都是大寫英文字母
-                            if (CharUtils().isEnglishLetter(randAnsFirst) && CharUtils().isEnglishLetter(randAnsLast)) {
+                            if (CharUtils.isEnglishLetter(randAnsFirst) && CharUtils.isEnglishLetter(randAnsLast)) {
                                 if (randAnsFirst <= randAnsLast) {  //如果randAnsFirst比randAnsLast小或相同
                                     for (ch: Char in randAnsFirst..randAnsLast) {
                                         allAnsArray.add(ch)
@@ -205,7 +208,7 @@ class MainActivity : AppCompatActivity() {
                             val allAnsArray = ArrayList<Char>()
 
                             //如果randAnsFirst和randAnsLast都是英文字母
-                            if (CharUtils().isEnglishLetter(randAnsFirst) && CharUtils().isEnglishLetter(randAnsLast)) {
+                            if (CharUtils.isEnglishLetter(randAnsFirst) && CharUtils.isEnglishLetter(randAnsLast)) {
                                 //如果randAnsFirst比randAnsLast小或相同
                                 if (randAnsFirst <= randAnsLast) {
                                     //將randAnsFirst到randAnsLast中的所有字母塞到一個ArrayList中
@@ -231,7 +234,7 @@ class MainActivity : AppCompatActivity() {
                             val randAnsFirst: Char = randomAnswerFirst.text.toString()[0]
                             val randAnsLast: Char = randomAnswerLast.text.toString()[0]
 
-                            if (CharUtils().isEnglishLetter(randAnsFirst) && CharUtils().isEnglishLetter(randAnsLast)) {
+                            if (CharUtils.isEnglishLetter(randAnsFirst) && CharUtils.isEnglishLetter(randAnsLast)) {
                                 if (randAnsFirst <= randAnsLast) {
                                     val set = cloze(randAnsFirst, randAnsLast)
                                     generateAnswer(30f, set, "[$set]",true)
@@ -247,7 +250,7 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.cloze_custom_all) -> {  //多選項填空(全部選項)
                         //如果RandAnsAll不為空
                         if (allSelection.text.isNotEmpty()) {
-                            val array = StringUtils().toCharArrayList(allSelection.text.toString())
+                            val array = StringUtils.toCharArrayList(allSelection.text.toString())
                             val set = cloze(array)
                             generateAnswer(30f, set, "[$set]", true)
                         }else {  //如果RandAnsAll為空，則彈出錯誤視窗
@@ -353,7 +356,7 @@ class MainActivity : AppCompatActivity() {
             //關於
             R.id.action_about -> {
                 val finalAlert: AlertDialog = setAlertDialog(getString(R.string.about),
-                    getString(R.string.about_string),
+                    null,
                     false,
                     0,
                     true,
@@ -364,7 +367,7 @@ class MainActivity : AppCompatActivity() {
                     null ,
                     false,
                     null,
-                    null).create()
+                    null).setMessage(R.string.about_string).create()
                 finalAlert.show()
                 (finalAlert.findViewById(android.R.id.message) as TextView).movementMethod =
                     LinkMovementMethod.getInstance()
@@ -554,7 +557,7 @@ class MainActivity : AppCompatActivity() {
 
         //使用冒泡排列重新排列生成的選項
         for (i in answer.indices) {
-            sb.append(Sort().bubble(answer)[i])
+            sb.append(Sort.bubble(answer)[i])
         }
 
         return sb.toString()

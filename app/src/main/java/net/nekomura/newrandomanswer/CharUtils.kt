@@ -1,6 +1,6 @@
 package net.nekomura.newrandomanswer
 
-class CharUtils {
+object CharUtils {
     /**
      * 是否為英文字母
      * @param char 要檢查的字符
