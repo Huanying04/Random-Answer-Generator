@@ -3,10 +3,8 @@ package net.nekomura.newrandomanswer
 object CharUtils {
     /**
      * 是否為英文字母
-     * @param char 要檢查的字符
-     * @return 是否為英文字母
      */
-    fun isEnglishLetter(char: Char): Boolean {
-        return char in 'a'..'z' || char in 'A'..'Z'
+    fun Char.isEnglishLetter(): Boolean {
+        return this in 'a'..'z' || this in 'A'..'Z'
     }
 }

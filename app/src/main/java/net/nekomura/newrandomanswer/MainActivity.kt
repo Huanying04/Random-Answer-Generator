@@ -20,6 +20,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.content_main.*
+import net.nekomura.newrandomanswer.CharUtils.isEnglishLetter
+import net.nekomura.newrandomanswer.StringUtils.toCharArrayList
 
 /**
  * @author 貓村幻影
@@ -169,7 +171,7 @@ class MainActivity : AppCompatActivity() {
                             val allAnsArray = ArrayList<Char>()
 
                             //如果randAnsFirst和randAnsLast都是大寫英文字母
-                            if (CharUtils.isEnglishLetter(randAnsFirst) && CharUtils.isEnglishLetter(randAnsLast)) {
+                            if (randAnsFirst.isEnglishLetter() && randAnsLast.isEnglishLetter()) {
                                 if (randAnsFirst <= randAnsLast) {  //如果randAnsFirst比randAnsLast小或相同
                                     for (ch: Char in randAnsFirst..randAnsLast) {
                                         allAnsArray.add(ch)
@@ -208,7 +210,7 @@ class MainActivity : AppCompatActivity() {
                             val allAnsArray = ArrayList<Char>()
 
                             //如果randAnsFirst和randAnsLast都是英文字母
-                            if (CharUtils.isEnglishLetter(randAnsFirst) && CharUtils.isEnglishLetter(randAnsLast)) {
+                            if (randAnsFirst.isEnglishLetter() && randAnsLast.isEnglishLetter()) {
                                 //如果randAnsFirst比randAnsLast小或相同
                                 if (randAnsFirst <= randAnsLast) {
                                     //將randAnsFirst到randAnsLast中的所有字母塞到一個ArrayList中
@@ -234,7 +236,7 @@ class MainActivity : AppCompatActivity() {
                             val randAnsFirst: Char = randomAnswerFirst.text.toString()[0]
                             val randAnsLast: Char = randomAnswerLast.text.toString()[0]
 
-                            if (CharUtils.isEnglishLetter(randAnsFirst) && CharUtils.isEnglishLetter(randAnsLast)) {
+                            if (randAnsFirst.isEnglishLetter() && randAnsLast.isEnglishLetter()) {
                                 if (randAnsFirst <= randAnsLast) {
                                     val set = cloze(randAnsFirst, randAnsLast)
                                     generateAnswer(30f, set, "[$set]",true)
@@ -250,7 +252,7 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.cloze_custom_all) -> {  //多選項填空(全部選項)
                         //如果RandAnsAll不為空
                         if (allSelection.text.isNotEmpty()) {
-                            val array = StringUtils.toCharArrayList(allSelection.text.toString())
+                            val array = allSelection.text.toString().toCharArrayList()
                             val set = cloze(array)
                             generateAnswer(30f, set, "[$set]", true)
                         }else {  //如果RandAnsAll為空，則彈出錯誤視窗
