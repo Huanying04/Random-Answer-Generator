@@ -1,2 +1,4 @@
-# Random-Answer-Generator
-隨機生成選項答案
+隨機生成選項答案。
+
+# 功能
+（待補充）
