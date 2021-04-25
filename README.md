@@ -3,7 +3,7 @@
 當你寫作業時看見題目卻不知道怎麼猜的時候這個軟體可以幫助你猜答案！甚至於出題老師出題目不知道正確答案放在哪個選項時也非常實用！
 
 # 介面
-![main](https://github.com/Huanying04/Random-Answer-Generator/blob/nekomura/images/Main.png)
+<img src="https://github.com/Huanying04/Random-Answer-Generator/blob/nekomura/images/Main.png" width="450"/>
 
 # 功能
 本軟體提供多種隨機答案生成模式，列舉如下：
