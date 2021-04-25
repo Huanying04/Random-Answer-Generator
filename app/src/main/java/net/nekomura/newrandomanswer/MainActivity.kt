@@ -7,9 +7,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
-import android.text.Html
-import android.text.Html.FROM_HTML_MODE_LEGACY
-import android.text.Html.fromHtml
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.view.Menu
@@ -25,7 +22,6 @@ import net.nekomura.newrandomanswer.StringUtils.toCharArrayList
 
 /**
  * @author 貓村幻影
- * @version 1.0.6.4
  */
 class MainActivity : AppCompatActivity() {
     //題號
@@ -155,12 +151,12 @@ class MainActivity : AppCompatActivity() {
                 when (summonTypeSpinner.selectedItem.toString()) {
                     getString(R.string.multiple_choice_A_D) -> {  //單選題(A-D)
                         val rand = ('A'..'D').random().toString()
-                        generateAnswer(270f, rand, rand, false)
+                        displayAnswer(270f, rand, rand, false)
                     }
 
                     getString(R.string.multiple_choice_A_E) -> {  //單選題(A-E)
                         val rand = ('A'..'E').random().toString()
-                        generateAnswer(270f, rand, rand, false)
+                        displayAnswer(270f, rand, rand, false)
                     }
 
                     getString(R.string.multiple_choice_custom) -> {  //單選題(第一選項, 最後選項)
@@ -178,7 +174,7 @@ class MainActivity : AppCompatActivity() {
                                     }
 
                                     val rand = (0 until allAnsArray.size).random()
-                                    generateAnswer(270f, allAnsArray[rand].toString(), allAnsArray[rand].toString(), false)
+                                    displayAnswer(270f, allAnsArray[rand].toString(), allAnsArray[rand].toString(), false)
                                 } else  //如果randAnsFirst比randAnsLast大
                                 //彈出錯誤視窗
                                     showSimpleAlertDialog(getString(R.string.error), getString(R.string.warning_illegal_letter_bound), getString(R.string.confirm))
@@ -194,12 +190,12 @@ class MainActivity : AppCompatActivity() {
 
                     getString(R.string.multiple_selection_A_D) -> {  //多選題(A-D)
                         val set = randomMultiple(arrayListOf('A', 'B', 'C', 'D'))
-                        generateAnswer(90f, set, "[$set]", true)
+                        displayAnswer(90f, set, "[$set]", true)
                     }
 
                     getString(R.string.multiple_selection_A_E) -> { //多選題(A-E)
                         val set = randomMultiple(arrayListOf('A', 'B', 'C', 'D', 'E'))
-                        generateAnswer(90f, set, "[$set]", true)
+                        displayAnswer(90f, set, "[$set]", true)
                     }
 
                     getString(R.string.multiple_selection_custom) -> {  //多選題(第一選項, 最後選項)
@@ -220,7 +216,7 @@ class MainActivity : AppCompatActivity() {
 
                                     //生成隨機選項，最少生成1選項，最多全選
                                     val set = randomMultiple(1, randAnsLast - (randAnsFirst - 1), allAnsArray)
-                                    generateAnswer(60f, set, "[$set]", true)
+                                    displayAnswer(60f, set, "[$set]", true)
                                 } else  //如果randAnsFirst比randAnsLast大
                                     showSimpleAlertDialog(getString(R.string.error), getString(R.string.warning_illegal_letter_bound), getString(R.string.confirm))
                             } else
@@ -239,7 +235,7 @@ class MainActivity : AppCompatActivity() {
                             if (randAnsFirst.isEnglishLetter() && randAnsLast.isEnglishLetter()) {
                                 if (randAnsFirst <= randAnsLast) {
                                     val set = cloze(randAnsFirst, randAnsLast)
-                                    generateAnswer(30f, set, "[$set]",true)
+                                    displayAnswer(30f, set, "[$set]",true)
                                 }else
                                     showSimpleAlertDialog(getString(R.string.error), getString(R.string.warning_illegal_letter_bound), getString(R.string.confirm))
                             }else
@@ -254,7 +250,7 @@ class MainActivity : AppCompatActivity() {
                         if (allSelection.text.isNotEmpty()) {
                             val array = allSelection.text.toString().toCharArrayList()
                             val set = cloze(array)
-                            generateAnswer(30f, set, "[$set]", true)
+                            displayAnswer(30f, set, "[$set]", true)
                         }else {  //如果RandAnsAll為空，則彈出錯誤視窗
                             showSimpleAlertDialog(getString(R.string.error), getString(R.string.warning_input_empty), getString(R.string.confirm))
                         }
@@ -262,7 +258,7 @@ class MainActivity : AppCompatActivity() {
 
                     getString(R.string.yes_or_no) -> {  //是非題
                         val rand = arrayOf("O", "X").random()
-                        generateAnswer(270f, rand, rand, false)
+                        displayAnswer(270f, rand, rand, false)
                     }
 
                     getString(R.string.random_number_max) -> {  //最大值隨機數字
@@ -273,7 +269,7 @@ class MainActivity : AppCompatActivity() {
                                 //若在1~999999999之間，則隨機生成數字
                                 in 1..999999999 -> {
                                     val rand = (1..randomNumMax).random()
-                                    generateAnswer(60f, rand.toString(), "($rand)", true)
+                                    displayAnswer(60f, rand.toString(), "($rand)", true)
                                 }
                                 //若小於1，則彈出錯誤視窗
                                 in Integer.MIN_VALUE..0 -> {
@@ -300,7 +296,7 @@ class MainActivity : AppCompatActivity() {
                             }
                             else {
                                 val rand = (randomIntMin..randomIntMax).random()
-                                generateAnswer(60f, rand.toString(), "($rand)", true)
+                                displayAnswer(60f, rand.toString(), "($rand)", true)
                             }
                         }else {
                             showSimpleAlertDialog(getString(R.string.error), getString(R.string.warning_input_empty), getString(R.string.confirm))
@@ -398,14 +394,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * 當按下生成按鈕時新的生成選項並加到生成歷史中
+     * 顯示新的生成選項，並給題號+1，增加生成歷史
      *
      * @param textSize 設定answerLabel文字大小
      * @param display 設定answerLabel的文字
      * @param history 增加到生成歷史的字符串
      * @param forceNewline 新增生成歷史後強制換行
      */
-    private fun generateAnswer(textSize: Float, display: String, history: String, forceNewline: Boolean) {
+    private fun displayAnswer(textSize: Float, display: String, history: String, forceNewline: Boolean) {
         //題號+1
         qNum++
         //設定answerLabel文字大小

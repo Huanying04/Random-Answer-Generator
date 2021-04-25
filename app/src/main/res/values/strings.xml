@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">隨機選項生成器</string>
+    <string name="app_name">隨機選項產生器</string>
     <string name="action_about">關於…</string>
     <string name="action_setting">設定</string>
     <string name="action_save">存檔</string>
